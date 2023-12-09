@@ -36,4 +36,4 @@ npm run build
 
 ## 感谢
 
-游戏是在https://github.com/blopa/top-down-react-phaser-game的基础上进行了修改的，由于侧重于GPT功能，所以删除用不到的功能，增加了鼠标点击、对话等功能。
+游戏是在 https://github.com/blopa/top-down-react-phaser-game 的基础上进行了修改的，由于侧重于GPT功能，所以删除用不到的功能，增加了鼠标点击、对话等功能。
