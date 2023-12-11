@@ -6,10 +6,10 @@ import GameScene from './game/scenes/GameScene';
 import { makeStyles } from '@material-ui/core/styles';
 import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin'
 import dialogBorderBox from './game/assets/images/dialog_borderbox.png';
-import DialogBox from "./game/DialogBox";
+import DialogBox from "./game/components/DialogBox";
 import './App.css';
 import { calculateGameSize } from "./game/utils";
-import GameHint from "./game/GameHint";
+import GameHint from "./game/components/GameHint";
 
 const { width, height, multiplier } = calculateGameSize();
 

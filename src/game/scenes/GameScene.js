@@ -1,6 +1,6 @@
 import { Scene } from 'phaser';
 import { createInteractiveGameObject } from '../utils';
-import ToastBox from '../ToastBox';
+import ToastBox from '../components/ToastBox';
 import {
     NPC_MOVEMENT_RANDOM,
     SCENE_FADE_TIME,

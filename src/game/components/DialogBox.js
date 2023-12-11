@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 // Images
-import dialogBorderBox from './assets/images/dialog_borderbox.png';
+import dialogBorderBox from '../assets/images/dialog_borderbox.png';
 
 // Components
 import Message from './Message';
