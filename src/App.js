@@ -71,7 +71,7 @@ function App() {
   const classes = useStyles();
   const [messages, setMessages] = useState([]);
   const [characterName, setCharacterName] = useState('');
-  const [gameHintText, setGameHintText] = useState("ai-town");
+  const [gameHintText, setGameHintText] = useState("https://github.com/git-cloner/ai-town");
 
   const handleMessageIsDone = useCallback(() => {
     const customEvent = new CustomEvent(`${characterName}-dialog-finished`, {

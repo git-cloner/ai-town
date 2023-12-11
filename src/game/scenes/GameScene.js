@@ -178,7 +178,7 @@ export default class GameScene extends Scene {
 
         this.cursors = this.input.keyboard.createCursorKeys();
         this.input.on('gameobjectdown', (pointer, gameObject) => {
-            //console.log(gameObject);
+            this.updateGameHint(gameObject.name);
         });
 
         this.conversationHistory = {};

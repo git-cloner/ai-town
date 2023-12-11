@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
         };
     },
     hint: ({ multiplier, width }) => ({
-        width: `${64 * multiplier}px`,
+        width: `${256 * multiplier}px`,
         height: `${16 * multiplier}px`,
         fontSize: `${8 * multiplier}px`,
         //color: '#FFFF00'
