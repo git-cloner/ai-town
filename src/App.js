@@ -4,6 +4,7 @@ import GridEngine from 'grid-engine';
 import BootScene from './game/scenes/BootScene';
 import GameScene from './game/scenes/GameScene';
 import { makeStyles } from '@material-ui/core/styles';
+import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin'
 import dialogBorderBox from './game/assets/images/dialog_borderbox.png';
 import DialogBox from "./game/DialogBox";
 import './App.css';
@@ -105,6 +106,9 @@ function App() {
       physics: {
         default: 'arcade',
       },
+      dom: {
+        createContainer: true
+      },
       plugins: {
         scene: [
           {
@@ -112,11 +116,15 @@ function App() {
             plugin: GridEngine,
             mapping: 'gridEngine',
           },
+          {
+            key: 'rexUI',
+            plugin: RexUIPlugin,
+            mapping: 'rexUI'
+          }
         ],
       },
       backgroundColor: '#000000',
     });
-
     window.phaserGame = game;
   }, []);
 
@@ -149,7 +157,6 @@ function App() {
           id="game-content"
           className={classes.gameContentWrapper}
         >
-          {/* this is where the game canvas will be rendered */}
         </div>
         <GameHint
           gameSize={{

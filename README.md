@@ -20,6 +20,10 @@ npm start
 
 访问：http://localhost:3000/ai-town/
 
+！ 如果报./node_modules/@react-spring/core/dist/react-spring_core.legacy-esm js 106:11错误，则是因为react-spring   这个的版本不对，执行以下命令重装一下react-spring 
+npm remove react-spring 
+npm i react-spring@9.2.4
+
 ## 编译
 
 npm run build

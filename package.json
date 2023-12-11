@@ -1,6 +1,6 @@
 {
   "name": "ai-town",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "homepage": "https://gitclone.com/ai-town/",
   "private": true,
   "dependencies": {
@@ -51,6 +51,7 @@
     "npm-check-updates": "^11.8.5",
     "optimize-css-assets-webpack-plugin": "5.0.8",
     "phaser": "^3.70.0",
+    "phaser3-rex-plugins": "^1.60.8",
     "pnp-webpack-plugin": "1.7.0",
     "postcss-flexbugs-fixes": "4.2.1",
     "postcss-loader": "3.0.0",

@@ -1,5 +1,6 @@
 import { Scene } from 'phaser';
 import { createInteractiveGameObject } from '../utils';
+import ToastBox from '../ToastBox';
 import {
     NPC_MOVEMENT_RANDOM,
     SCENE_FADE_TIME,
@@ -20,7 +21,8 @@ export default class GameScene extends Scene {
         ]
     };
     isConversationing = 0;
-
+    toastBox = undefined;
+    
     init(data) {
         this.initData = data;
     }
@@ -182,7 +184,8 @@ export default class GameScene extends Scene {
         });
 
         this.conversationHistory = {};
-
+        this.toastBox = ToastBox(this,0, 0) ;
+        
         // Mouse
         this.input.on("pointerup", (pointer) => {
             var pt = this.gridEngine.gridTilemap.tilemap.worldToTileXY(pointer.worldX, pointer.worldY);
@@ -579,7 +582,6 @@ export default class GameScene extends Scene {
             if (this.isConversationing <= 1) {
                 return;
             }
-            //console.log(this.conversationHistory);
             if (!this.conversationHistory[characterName]) {
                 this.conversationHistory[characterName] = [];
             }
@@ -614,7 +616,9 @@ export default class GameScene extends Scene {
             return;
         }
         this.isConversationing = 1;
-        this.updateGameHint("与" + characterName + "聊天中...");
+        this.toastBox.x = npc.x  + 40 ;
+        this.toastBox.y = npc.y - 30 ;
+        this.toastBox.setDepth(10).showMessage("与" + characterName + "聊天中...") ;
         const timer = setInterval(() => {
             if (this.isConversationing === 1) {
                 this.genConversationByGPT(characterName, npc, npcsKeys);
