@@ -6,13 +6,12 @@
 
 ## 安装
 
+```bash
 1、安装最新版的node.js
-
 2、git clone https://github.com/git-cloner/ai-town
-
 3、cd ai-town
-
 4、npm i
+```
 
 ## 运行
 
@@ -21,8 +20,11 @@ npm start
 访问：http://localhost:3000/ai-town/
 
 ！ 如果报./node_modules/@react-spring/core/dist/react-spring_core.legacy-esm js 106:11错误，则是因为react-spring   这个的版本不对，执行以下命令重装一下react-spring 
+
+```bash
 npm remove react-spring 
 npm i react-spring@9.2.4
+```
 
 ## 编译
 
