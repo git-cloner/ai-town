@@ -129,6 +129,7 @@ function App() {
   }, []);
 
   useEffect(() => {
+    //dialogs event
     const dialogBoxEventListener = ({ detail }) => {
       setCharacterName(detail.characterName);
       setMessages([{
@@ -136,6 +137,7 @@ function App() {
       }]);
     };
     window.addEventListener('new-dialog', dialogBoxEventListener);
+    //game hint event
     const gameHintEventListener = ({ detail }) => {
       var hint = detail.hintText;
       if (hint === "") {
@@ -144,6 +146,7 @@ function App() {
       setGameHintText(hint);
     };
     window.addEventListener('game-hint', gameHintEventListener);
+    //remove listeners
     return () => {
       window.removeEventListener('new-dialog', dialogBoxEventListener);
       window.removeEventListener('game-hint', gameHintEventListener);

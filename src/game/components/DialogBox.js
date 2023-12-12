@@ -55,7 +55,6 @@ const DialogBox = ({
 
     const [currentMessage, setCurrentMessage] = useState(0);
     const [messageEnded, setMessageEnded] = useState(false);
-    const [forceShowFullMessage, setForceShowFullMessage] = useState(false);
     const classes = useStyles({
         width,
         height,
@@ -65,7 +64,6 @@ const DialogBox = ({
     const handleClick = useCallback(() => {
         if (messageEnded) {
             setMessageEnded(false);
-            setForceShowFullMessage(false);
             if (currentMessage < messages.length - 1) {
                 setCurrentMessage(currentMessage + 1);
             } else {
@@ -74,7 +72,6 @@ const DialogBox = ({
             }
         } else {
             setMessageEnded(true);
-            setForceShowFullMessage(true);
         }
     }, [currentMessage, messageEnded, messages.length, onDone]);
 
@@ -86,7 +83,7 @@ const DialogBox = ({
         };
         const timer = setTimeout(() => {
             handleClick();
-        }, 3000)
+        }, 10000)
 
         window.addEventListener('keydown', handleKeyPressed);
 
@@ -106,7 +103,7 @@ const DialogBox = ({
                 message={messages[currentMessage].message}
                 key={currentMessage}
                 multiplier={multiplier}
-                forceShowFullMessage={forceShowFullMessage}
+                forceShowFullMessage={true}
                 onMessageEnded={() => {
                     setMessageEnded(true);
                 }}

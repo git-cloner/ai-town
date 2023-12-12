@@ -1,10 +1,10 @@
 import { Scene } from 'phaser';
 import { createInteractiveGameObject } from '../utils';
-import ToastBox from '../components/ToastBox';
 import {
     NPC_MOVEMENT_RANDOM,
     SCENE_FADE_TIME,
 } from '../constants';
+import { callGpt, getPrompt, addHistory } from '../ChatUtils';
 
 export default class GameScene extends Scene {
     constructor() {
@@ -13,16 +13,8 @@ export default class GameScene extends Scene {
 
     cursors = {};
     isTeleporting = false;
-    conversationHistory = {
-        "npc_01": [
-            "你好",
-            "最近怎么样？", "还不错！",
-            "准备去哪？"
-        ]
-    };
     isConversationing = 0;
-    toastBox = undefined;
-    
+
     init(data) {
         this.initData = data;
     }
@@ -183,9 +175,6 @@ export default class GameScene extends Scene {
             this.updateGameHint(gameObject.name);
         });
 
-        this.conversationHistory = {};
-        this.toastBox = ToastBox(this,0, 0) ;
-        
         // Mouse
         this.input.on("pointerup", (pointer) => {
             var pt = this.gridEngine.gridTilemap.tilemap.worldToTileXY(pointer.worldX, pointer.worldY);
@@ -536,56 +525,11 @@ export default class GameScene extends Scene {
         });
     }
 
-    callGpt(modelname, prompt) {
-        return new Promise((resolve, reject) => {
-            let xhr = new XMLHttpRequest();
-            xhr.open('post', 'https://gitclone.com/aiit/codegen_stream/v2');
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            var context = JSON.stringify({
-                "context": {
-                    "prompt": prompt,
-                    "history": []
-                },
-                "modelname": modelname
-            });
-
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    var json = JSON.parse(xhr.response);
-                    resolve(json);
-                } else {
-                    reject("Request failed with status: " + xhr.status);
-                }
-            };
-
-            xhr.onerror = function () {
-                reject("Request failed");
-            };
-
-            xhr.send(context);
-        });
-    }
-
     genConversationByGPT(characterName, npc, npcsKeys) {
-        var history = this.conversationHistory[characterName];
-        var prompt = "当在小镇遇到熟人，聊天气或生活，随机写一个开始话题";
-        var prevAnswer = "";
-        var modelname = "ChatGLM-6b";
-        if (history !== undefined) {
-            prevAnswer = this.conversationHistory[characterName][this.conversationHistory[characterName].length - 1];
-            prompt = '当在小镇遇到熟人，聊天气或生活，熟人说：" ' + prevAnswer + '"，随机写一个回答';
-        }
-        this.callGpt(modelname, prompt).then(response => {
-            if (response.stop) {
-                this.isConversationing = 2;
-            };
-            if (this.isConversationing <= 1) {
-                return;
-            }
-            if (!this.conversationHistory[characterName]) {
-                this.conversationHistory[characterName] = [];
-            }
-            this.conversationHistory[characterName].push(response.response);
+        //get promat
+        var prompt = getPrompt(characterName);
+        callGpt(prompt).then(response => {
+            //show message
             const customEvent = new CustomEvent('new-dialog', {
                 detail: {
                     "characterName": characterName,
@@ -593,6 +537,15 @@ export default class GameScene extends Scene {
                 },
             });
             window.dispatchEvent(customEvent);
+            //stop dialog
+            if (response.stop) {
+                this.isConversationing = 2;
+            };
+            if (this.isConversationing <= 1) {
+                return;
+            }
+            addHistory(characterName, response.response);
+            //move npc
             const dialogBoxFinishedEventListener = () => {
                 window.removeEventListener(`
                         ${characterName}-dialog-finished`, dialogBoxFinishedEventListener);
@@ -616,9 +569,7 @@ export default class GameScene extends Scene {
             return;
         }
         this.isConversationing = 1;
-        this.toastBox.x = npc.x  + 40 ;
-        this.toastBox.y = npc.y - 30 ;
-        this.toastBox.setDepth(10).showMessage("与" + characterName + "聊天中...") ;
+        this.updateGameHint("与" + characterName + "聊天中...");
         const timer = setInterval(() => {
             if (this.isConversationing === 1) {
                 this.genConversationByGPT(characterName, npc, npcsKeys);
