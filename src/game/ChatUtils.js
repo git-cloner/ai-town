@@ -17,9 +17,18 @@ export const getPrompt = (characterName) => {
 
     if (history !== undefined) {
         prevAnswer = conversationHistory[characterName][conversationHistory[characterName].length - 1];
-        prompt = chatTemplate.replace('{prevanswer}', prevAnswer) ;
+        prompt = chatTemplate.replace('{prevanswer}', prevAnswer);
     }
     return prompt;
+}
+
+export const getPrevAnser = (characterName) => {
+    var history = conversationHistory[characterName];
+    if (history !== undefined) {
+        return conversationHistory[characterName][conversationHistory[characterName].length - 1];
+    } else {
+        return "";
+    }
 }
 
 export const addHistory = (characterName, answer) => {

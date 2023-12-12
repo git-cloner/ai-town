@@ -4,9 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
     dialogMessage: ({ multiplier }) => ({
-        fontFamily: '"Press Start 2P"',
+        fontFamily: '"宋体"',
         fontSize: `${5 * multiplier}px`,
         textTransform: 'uppercase',
+        lineHeight:'1.5em'
     }),
 }));
 
@@ -40,7 +41,7 @@ const Message = ({
     return (
         <div className={classes.dialogMessage}>
             {forceShowFullMessage && (
-                <span>{message}</span>
+                <span dangerouslySetInnerHTML={{ __html: message }}></span>
             )}
 
             {!forceShowFullMessage && transitions((styles, { item, key }) => (
