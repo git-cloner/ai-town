@@ -1,6 +1,6 @@
 {
   "name": "ai-town",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "homepage": "https://gitclone.com/ai-town/",
   "private": true,
   "dependencies": {
@@ -80,7 +80,7 @@
   },
   "scripts": {
     "start": "set NODE_OPTIONS=--openssl-legacy-provider && node scripts/start.js",
-    "build": "set NODE_OPTIONS=--openssl-legacy-provider && node scripts/build.js",
+    "build": "set GENERATE_SOURCEMAP=false && set NODE_OPTIONS=--openssl-legacy-provider && node scripts/build.js",
     "test": "set NODE_OPTIONS=--openssl-legacy-provider && node scripts/test.js",
     "bump": "ncu -u -t minor"
   },

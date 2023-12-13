@@ -146,7 +146,7 @@ function App() {
       const timer = setInterval(() => {
         clearInterval(timer);
         handleMessageIsDone();
-      }, 500);
+      }, 2000);
     };
     window.addEventListener('close-dialog', closedialogBoxEventListener);
     //game hint event
