@@ -190,8 +190,8 @@ export default class GameScene extends Scene {
             this.isMoveRandomly = !this.isMoveRandomly;
             if (this.isMoveRandomly) {
                 this.gridEngine.moveRandomly("hero", 1500, 3);
-            }else{
-                this.gridEngine.stopMovement("hero") ;
+            } else {
+                this.gridEngine.stopMovement("hero");
             }
         };
         window.addEventListener('heroRandomMove', heroRandomMoveEventListener);
@@ -549,7 +549,7 @@ export default class GameScene extends Scene {
             } else {
                 currentMessage = "<span style='color:yellow'>you:" + getPrevAnser(characterName) + "</span><br>" + characterName + ":" + response.response;
             }
-            window.dispatchEvent(new CustomEvent('new-dialog', {
+            window.dispatchEvent(new CustomEvent('show-dialog', {
                 detail: {
                     "characterName": characterName,
                     "message": currentMessage
@@ -582,8 +582,15 @@ export default class GameScene extends Scene {
             }
             if (this.isConversationing === 2) {
                 clearInterval(timer);
-                //move npc
+                //close dialog
+                window.dispatchEvent(new CustomEvent('close-dialog', {
+                    detail: {
+                        "characterName": characterName
+                    },
+                }));
+                //stop conv
                 const dialogBoxFinishedEventListener = () => {
+                    console.log("ok") ;
                     window.removeEventListener(`
                             ${characterName}-dialog-finished`, dialogBoxFinishedEventListener);
                     const { delay, area } = npcsKeys.find((npcData) => npcData.npcKey === characterName);

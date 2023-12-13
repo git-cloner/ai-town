@@ -129,14 +129,26 @@ function App() {
   }, []);
 
   useEffect(() => {
-    //dialogs event
-    const dialogBoxEventListener = ({ detail }) => {
+    //show dialogs event
+    const showdialogBoxEventListener = ({ detail }) => {
       setCharacterName(detail.characterName);
       setMessages([{
         "message": detail.message
       }]);
     };
-    window.addEventListener('new-dialog', dialogBoxEventListener);
+    window.addEventListener('show-dialog', showdialogBoxEventListener);
+    //close dialogs event
+    const closedialogBoxEventListener = ({ detail }) => {
+      setCharacterName(detail.characterName);
+      setMessages([{
+        "message": ""
+      }]);
+      const timer = setInterval(() => {
+        clearInterval(timer);
+        handleMessageIsDone();
+      }, 500);
+    };
+    window.addEventListener('close-dialog', closedialogBoxEventListener);
     //game hint event
     const gameHintEventListener = ({ detail }) => {
       var hint = detail.hintText;
@@ -148,10 +160,11 @@ function App() {
     window.addEventListener('game-hint', gameHintEventListener);
     //remove listeners
     return () => {
-      window.removeEventListener('new-dialog', dialogBoxEventListener);
+      window.removeEventListener('show-dialog', showdialogBoxEventListener);
+      window.removeEventListener('close-dialog', closedialogBoxEventListener);
       window.removeEventListener('game-hint', gameHintEventListener);
     };
-  }, [setCharacterName, setMessages]);
+  }, [setCharacterName, setMessages, handleMessageIsDone]);
 
   return (
     <div>

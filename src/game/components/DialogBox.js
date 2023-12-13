@@ -81,15 +81,11 @@ const DialogBox = ({
                 handleClick();
             }
         };
-        const timer = setTimeout(() => {
-            handleClick();
-        }, 10000)
 
         window.addEventListener('keydown', handleKeyPressed);
 
         return () => {
             window.removeEventListener('keydown', handleKeyPressed);
-            clearTimeout(timer);
         };
     }, [handleClick]);
 
