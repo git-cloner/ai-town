@@ -17,7 +17,16 @@ const useStyles = makeStyles((theme) => ({
         fontSize: `${8 * multiplier}px`,
         //color: '#FFFF00'
     }),
+    button: ({ multiplier }) => ({
+        fontSize: `${5 * multiplier}px`,
+        cursor: 'pointer',
+        textAlign: 'center',
+        position: 'absolute',
+        left: `${1 * multiplier}px`,
+        top: `${12 * multiplier}px`
+    }),
 }));
+
 
 const GameHint = ({
     gameSize,
@@ -35,9 +44,15 @@ const GameHint = ({
         multiplier,
     });
 
+    const handleClick = () => {
+        const customEvent = new CustomEvent('heroRandomMove', {});
+        window.dispatchEvent(customEvent);
+    };
+
     return (
         <div className={classes.hintContainer}>
             <div className={classes.hint}>{hintText}</div>
+            <button onClick={handleClick} className={classes.button}>随便走走</button>
         </div>
     );
 };

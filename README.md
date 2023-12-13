@@ -24,6 +24,7 @@ npm start
 ```bash
 npm remove react-spring 
 npm i react-spring@9.2.4
+npm i --save-dev @babel/plugin-proposal-private-property-in-object
 ```
 
 ## 编译

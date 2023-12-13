@@ -15,6 +15,7 @@ export default class GameScene extends Scene {
     isTeleporting = false;
     isConversationing = 0;
     conversationTurn = 0;
+    isMoveRandomly = false;
 
     init(data) {
         this.initData = data;
@@ -185,6 +186,16 @@ export default class GameScene extends Scene {
             this.heroActionCollider.update();
         });
 
+        const heroRandomMoveEventListener = () => {
+            this.isMoveRandomly = !this.isMoveRandomly;
+            if (this.isMoveRandomly) {
+                this.gridEngine.moveRandomly("hero", 1500, 3);
+            }else{
+                this.gridEngine.stopMovement("hero") ;
+            }
+        };
+        window.addEventListener('heroRandomMove', heroRandomMoveEventListener);
+
         // Map
         const map = this.make.tilemap({ key: mapKey });
         map.addTilesetImage('tileset', 'tileset');
@@ -313,6 +324,7 @@ export default class GameScene extends Scene {
                             this.time.delayedCall(
                                 SCENE_FADE_TIME,
                                 () => {
+                                    window.removeEventListener('heroRandomMove', heroRandomMoveEventListener);
                                     this.isTeleporting = false;
                                     this.scene.restart({
                                         heroStatus: {
@@ -557,6 +569,7 @@ export default class GameScene extends Scene {
     conversation(npc, npcsKeys) {
         const characterName = npc.texture.key;
         this.gridEngine.stopMovement(characterName);
+        this.gridEngine.stopMovement("hero");
         if (this.gridEngine.isMoving(characterName)) {
             return;
         }
@@ -575,6 +588,9 @@ export default class GameScene extends Scene {
                             ${characterName}-dialog-finished`, dialogBoxFinishedEventListener);
                     const { delay, area } = npcsKeys.find((npcData) => npcData.npcKey === characterName);
                     this.gridEngine.moveRandomly(characterName, delay, area);
+                    if (this.isMoveRandomly) {
+                        this.gridEngine.moveRandomly("hero", 1500, 3);
+                    }
                     this.time.delayedCall(3000, () => {
                         this.isConversationing = 0;
                         this.updateGameHint(" ");

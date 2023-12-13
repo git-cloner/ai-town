@@ -1,6 +1,6 @@
 {
   "name": "ai-town",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "homepage": "https://gitclone.com/ai-town/",
   "private": true,
   "dependencies": {
@@ -159,5 +159,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }
