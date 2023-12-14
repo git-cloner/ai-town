@@ -140,9 +140,7 @@ function App() {
     //close dialogs event
     const closedialogBoxEventListener = ({ detail }) => {
       setCharacterName(detail.characterName);
-      setMessages([{
-        "message": ""
-      }]);
+      setMessages([]);
       const timer = setInterval(() => {
         clearInterval(timer);
         handleMessageIsDone();

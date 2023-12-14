@@ -7,17 +7,17 @@
 };*/
 
 var conversationHistory = {};
-const startWords = "当在小镇遇到熟人，聊天气或生活，随机写一个开始话题";
-const chatTemplate = '当在小镇遇到熟人，聊天气或生活，熟人说：" {prevanswer}"，随机写一个回答'
+const startWords = "当在小镇遇到熟人，聊{topic}，随机写一个开始话题";
+const chatTemplate = '当在小镇遇到熟人，聊{topic}，熟人说：" {prevanswer}"，随机写一个回答'
 
-export const getPrompt = (characterName) => {
+export const getPrompt = (characterName, topic) => {
     var history = conversationHistory[characterName];
-    var prompt = startWords;
+    var prompt = startWords.replace('{topic}', topic);
     var prevAnswer = "";
 
     if (history !== undefined) {
         prevAnswer = conversationHistory[characterName][conversationHistory[characterName].length - 1];
-        prompt = chatTemplate.replace('{prevanswer}', prevAnswer);
+        prompt = chatTemplate.replace('{prevanswer}', prevAnswer).replace('{topic}', topic);
     }
     return prompt;
 }

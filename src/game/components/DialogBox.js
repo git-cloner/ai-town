@@ -108,7 +108,7 @@ const DialogBox = ({
                 onClick={handleClick}
                 className={classes.dialogFooter}
             >
-                {(currentMessage === messages.length - 1 && messageEnded) ? 'Ok' : 'Next'}
+                {'Ok'}
             </div>
         </div>
     );

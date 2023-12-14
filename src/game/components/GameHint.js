@@ -25,6 +25,14 @@ const useStyles = makeStyles((theme) => ({
         left: `${1 * multiplier}px`,
         top: `${12 * multiplier}px`
     }),
+    button1: ({ multiplier }) => ({
+        fontSize: `${5 * multiplier}px`,
+        cursor: 'pointer',
+        textAlign: 'center',
+        position: 'absolute',
+        left: `${1 * multiplier}px`,
+        top: `${24 * multiplier}px`
+    }),
 }));
 
 
@@ -53,6 +61,7 @@ const GameHint = ({
         <div className={classes.hintContainer}>
             <div className={classes.hint}>{hintText}</div>
             <button onClick={handleClick} className={classes.button}>随便走走</button>
+            <button onClick={handleClick} className={classes.button1}>设置话题</button>
         </div>
     );
 };

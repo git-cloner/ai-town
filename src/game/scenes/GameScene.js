@@ -6,6 +6,8 @@ import {
 } from '../constants';
 import { callGpt, getPrompt, addHistory, getPrevAnser } from '../ChatUtils';
 
+var topic = "天气";
+
 export default class GameScene extends Scene {
     constructor() {
         super('GameScene');
@@ -15,8 +17,9 @@ export default class GameScene extends Scene {
     isTeleporting = false;
     isConversationing = 0;
     conversationTurn = 0;
-    isMoveRandomly = false;
-
+    isMoveRandomly = false; 
+    topicElement = undefined ;
+    
     init(data) {
         this.initData = data;
     }
@@ -155,6 +158,32 @@ export default class GameScene extends Scene {
         };
     }
 
+    preload() {
+        this.load.html('topicform', 'ai-town/topicform.html');
+    }
+
+    showTopicDialog() {
+        var element = this.topicElement ;
+        if (!element){
+           element = this.add.dom(80, 100).createFromCache('topicform');
+           this.topicElement = element ;
+        }
+        element.setVisible(true) ;
+        element.setPerspective(100);
+        element.addListener('click');
+        element.on('click', function (event) {
+            if (event.target.name === 'okButton') {
+                var s = this.getChildByName('topic').value;
+                if (s === "") {
+                    s = "天气";
+                }
+                topic = s;
+                this.removeListener('click');
+                element.setVisible(false);
+            };
+        });
+    }
+
     create() {
         const camera = this.cameras.main;
         const { game } = this.sys;
@@ -167,7 +196,7 @@ export default class GameScene extends Scene {
             maxHealth: heroMaxHealth,
             coin: heroCoin,
             canPush: heroCanPush,
-            haveSword: heroHaveSword,
+            haveSword: heroHaveSword
         } = heroStatus;
 
         camera.fadeIn(SCENE_FADE_TIME);
@@ -176,7 +205,6 @@ export default class GameScene extends Scene {
         this.input.on('gameobjectdown', (pointer, gameObject) => {
             this.updateGameHint(gameObject.name);
         });
-
         // Mouse
         this.input.on("pointerup", (pointer) => {
             var pt = this.gridEngine.gridTilemap.tilemap.worldToTileXY(pointer.worldX, pointer.worldY);
@@ -187,6 +215,7 @@ export default class GameScene extends Scene {
         });
 
         const heroRandomMoveEventListener = () => {
+            this.showTopicDialog();
             this.isMoveRandomly = !this.isMoveRandomly;
             if (this.isMoveRandomly) {
                 this.gridEngine.moveRandomly("hero", 1500, 3);
@@ -338,7 +367,7 @@ export default class GameScene extends Scene {
                                             canPush: this.heroSprite.canPush,
                                             haveSword: this.heroSprite.haveSword,
                                         },
-                                        mapKey: teleportToMapKey,
+                                        mapKey: teleportToMapKey
                                     });
                                 }
                             );
@@ -540,7 +569,7 @@ export default class GameScene extends Scene {
 
     genConversationByGPT(characterName) {
         //get promat
-        var prompt = getPrompt(characterName);
+        var prompt = getPrompt(characterName, topic);
         callGpt(prompt).then(response => {
             //show message
             var currentMessage = "";
@@ -590,7 +619,6 @@ export default class GameScene extends Scene {
                 }));
                 //stop conv
                 const dialogBoxFinishedEventListener = () => {
-                    console.log("ok") ;
                     window.removeEventListener(`
                             ${characterName}-dialog-finished`, dialogBoxFinishedEventListener);
                     const { delay, area } = npcsKeys.find((npcData) => npcData.npcKey === characterName);
