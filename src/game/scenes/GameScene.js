@@ -159,7 +159,11 @@ export default class GameScene extends Scene {
     }
 
     preload() {
-        this.load.html('topicform', 'ai-town/topicform.html');
+        if (window.location.host.indexOf("localhost") >= 0) {
+            this.load.html('topicform', 'ai-town/topicform.html');
+        }else{
+             this.load.html('topicform', 'topicform.html');
+        }        
     }
 
     showTopicDialog() {
