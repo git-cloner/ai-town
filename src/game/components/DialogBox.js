@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
         };
     },
     dialogTitle: ({ multiplier }) => ({
-        fontSize: `${4 * multiplier}px`,
+        fontSize: `${6 * multiplier}px`,
         marginBottom: `${6 * multiplier}px`,
         fontWeight: 'bold',
     }),

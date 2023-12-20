@@ -231,7 +231,7 @@ export default class GameScene extends Scene {
 
         // Map
         const map = this.make.tilemap({ key: mapKey });
-        map.addTilesetImage('tileset', 'tileset');
+        const tileset  = map.addTilesetImage('town', 'town');
 
         if (isDebugMode) {
             window.phaserGame = game;
@@ -252,7 +252,7 @@ export default class GameScene extends Scene {
         this.heroSprite.body.setOffset(9, 13);
         this.heroSprite.name = "hero";
         this.heroSprite.setInteractive();
-
+        
         this.heroActionCollider = createInteractiveGameObject(
             this,
             this.heroSprite.x + 9,
@@ -286,7 +286,7 @@ export default class GameScene extends Scene {
         // Layer
         const elementsLayers = this.add.group();
         for (let i = 0; i < map.layers.length; i++) {
-            const layer = map.createLayer(i, 'tileset', 0, 0);
+            const layer = map.createLayer(i, tileset, 0, 0);
             layer.layer.properties.forEach((property) => {
                 const { value, name } = property;
 
@@ -297,6 +297,7 @@ export default class GameScene extends Scene {
 
             this.physics.add.collider(this.heroSprite, layer);
         }
+        
         // Npcs
         const npcsKeys = [];
         const dataLayer = map.getObjectLayer('actions');
@@ -386,7 +387,7 @@ export default class GameScene extends Scene {
                 }
             });
         });
-
+        
         // Follow
         camera.startFollow(this.heroSprite, true);
         camera.setFollowOffset(-this.heroSprite.width, -this.heroSprite.height);
@@ -420,6 +421,7 @@ export default class GameScene extends Scene {
                 },
             ],
         };
+        
         // Npc move
         const npcSprites = this.add.group();
         npcsKeys.forEach((npcData) => {
@@ -452,7 +454,7 @@ export default class GameScene extends Scene {
         this.createPlayerWalkingAnimation('hero', 'walking_left');
 
         this.gridEngine.create(map, gridEngineConfig);
-
+        
         // NPCs
         npcsKeys.forEach((npcData) => {
             const {
@@ -461,7 +463,6 @@ export default class GameScene extends Scene {
                 delay,
                 area,
             } = npcData;
-
             if (movementType === NPC_MOVEMENT_RANDOM) {
                 this.gridEngine.moveRandomly(npcKey, delay, area);
             }
@@ -505,7 +506,7 @@ export default class GameScene extends Scene {
                 }
             }
         });
-
+        
         // Hero update
         this.heroActionCollider.update = () => {
             const facingDirection = this.gridEngine.getFacingDirection('hero');
@@ -561,7 +562,7 @@ export default class GameScene extends Scene {
                 }
             }
         };
-
+        
         // Overlap
         this.physics.add.overlap(this.heroObjectCollider, npcSprites, (objA, objB) => {
             if (this.isConversationing > 0) {

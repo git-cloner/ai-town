@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         //color: '#FFFF00'
     }),
     button: ({ multiplier }) => ({
-        fontSize: `${5 * multiplier}px`,
+        fontSize: `${6 * multiplier}px`,
         cursor: 'pointer',
         textAlign: 'center',
         position: 'absolute',
@@ -26,12 +26,12 @@ const useStyles = makeStyles((theme) => ({
         top: `${12 * multiplier}px`
     }),
     button1: ({ multiplier }) => ({
-        fontSize: `${5 * multiplier}px`,
+        fontSize: `${6 * multiplier}px`,
         cursor: 'pointer',
         textAlign: 'center',
         position: 'absolute',
         left: `${1 * multiplier}px`,
-        top: `${24 * multiplier}px`
+        top: `${26 * multiplier}px`
     }),
 }));
 
