@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
         width: `${256 * multiplier}px`,
         height: `${16 * multiplier}px`,
         fontSize: `${8 * multiplier}px`,
+        cursor: 'pointer'
         //color: '#FFFF00'
     }),
     button: ({ multiplier }) => ({
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         position: 'absolute',
         left: `${1 * multiplier}px`,
-        top: `${12 * multiplier}px`
+        top: `${13 * multiplier}px`
     }),
     button1: ({ multiplier }) => ({
         fontSize: `${6 * multiplier}px`,
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         position: 'absolute',
         left: `${1 * multiplier}px`,
-        top: `${26 * multiplier}px`
+        top: `${27 * multiplier}px`
     }),
 }));
 
@@ -52,16 +53,25 @@ const GameHint = ({
         multiplier,
     });
 
-    const handleClick = () => {
+    const handleButtonClick = () => {
         const customEvent = new CustomEvent('heroRandomMove', {});
         window.dispatchEvent(customEvent);
     };
 
+    const handleButton1Click = () => {
+        const customEvent = new CustomEvent('topicDialog', {});
+        window.dispatchEvent(customEvent);
+    };
+
+    const handleLinkClick = () => {
+        window.open('https://github.com/git-cloner/ai-town', '_blank');
+    }
+
     return (
         <div className={classes.hintContainer}>
-            <div className={classes.hint}>{hintText}</div>
-            <button onClick={handleClick} className={classes.button}>随便走走</button>
-            <button onClick={handleClick} className={classes.button1}>设置话题</button>
+            <div className={classes.hint} onClick={handleLinkClick}>{hintText}</div>
+            <button onClick={handleButtonClick} className={classes.button}>随便走走</button>
+            <button onClick={handleButton1Click} className={classes.button1}>设置话题</button>
         </div>
     );
 };

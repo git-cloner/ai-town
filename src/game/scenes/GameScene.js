@@ -17,9 +17,9 @@ export default class GameScene extends Scene {
     isTeleporting = false;
     isConversationing = 0;
     conversationTurn = 0;
-    isMoveRandomly = false; 
-    topicElement = undefined ;
-    
+    isMoveRandomly = false;
+    topicElement = undefined;
+
     init(data) {
         this.initData = data;
     }
@@ -161,18 +161,18 @@ export default class GameScene extends Scene {
     preload() {
         if (window.location.host.indexOf("localhost") >= 0) {
             this.load.html('topicform', 'ai-town/topicform.html');
-        }else{
-             this.load.html('topicform', 'topicform.html');
-        }        
+        } else {
+            this.load.html('topicform', 'topicform.html');
+        }
     }
 
     showTopicDialog() {
-        var element = this.topicElement ;
-        if (!element){
-           element = this.add.dom(80, 100).createFromCache('topicform');
-           this.topicElement = element ;
+        var element = this.topicElement;
+        if (!element) {
+            element = this.add.dom(80, 100).createFromCache('topicform');
+            this.topicElement = element;
         }
-        element.setVisible(true) ;
+        element.setVisible(true);
         element.setPerspective(100);
         element.addListener('click');
         element.on('click', function (event) {
@@ -182,9 +182,9 @@ export default class GameScene extends Scene {
                     s = "天气";
                 }
                 topic = s;
-                this.removeListener('click');
-                element.setVisible(false);
             };
+            this.removeListener('click');
+            element.setVisible(false);
         });
     }
 
@@ -219,7 +219,6 @@ export default class GameScene extends Scene {
         });
 
         const heroRandomMoveEventListener = () => {
-            this.showTopicDialog();
             this.isMoveRandomly = !this.isMoveRandomly;
             if (this.isMoveRandomly) {
                 this.gridEngine.moveRandomly("hero", 1500, 3);
@@ -229,9 +228,14 @@ export default class GameScene extends Scene {
         };
         window.addEventListener('heroRandomMove', heroRandomMoveEventListener);
 
+        const heroTopicDialogEventListener = () => {
+            this.showTopicDialog();
+        };
+        window.addEventListener('topicDialog', heroTopicDialogEventListener);
+
         // Map
         const map = this.make.tilemap({ key: mapKey });
-        const tileset  = map.addTilesetImage('town', 'town');
+        const tileset = map.addTilesetImage('town', 'town');
 
         if (isDebugMode) {
             window.phaserGame = game;
@@ -252,7 +256,7 @@ export default class GameScene extends Scene {
         this.heroSprite.body.setOffset(9, 13);
         this.heroSprite.name = "hero";
         this.heroSprite.setInteractive();
-        
+
         this.heroActionCollider = createInteractiveGameObject(
             this,
             this.heroSprite.x + 9,
@@ -297,7 +301,7 @@ export default class GameScene extends Scene {
 
             this.physics.add.collider(this.heroSprite, layer);
         }
-        
+
         // Npcs
         const npcsKeys = [];
         const dataLayer = map.getObjectLayer('actions');
@@ -387,7 +391,7 @@ export default class GameScene extends Scene {
                 }
             });
         });
-        
+
         // Follow
         camera.startFollow(this.heroSprite, true);
         camera.setFollowOffset(-this.heroSprite.width, -this.heroSprite.height);
@@ -421,7 +425,7 @@ export default class GameScene extends Scene {
                 },
             ],
         };
-        
+
         // Npc move
         const npcSprites = this.add.group();
         npcsKeys.forEach((npcData) => {
@@ -454,7 +458,7 @@ export default class GameScene extends Scene {
         this.createPlayerWalkingAnimation('hero', 'walking_left');
 
         this.gridEngine.create(map, gridEngineConfig);
-        
+
         // NPCs
         npcsKeys.forEach((npcData) => {
             const {
@@ -506,7 +510,7 @@ export default class GameScene extends Scene {
                 }
             }
         });
-        
+
         // Hero update
         this.heroActionCollider.update = () => {
             const facingDirection = this.gridEngine.getFacingDirection('hero');
@@ -562,7 +566,7 @@ export default class GameScene extends Scene {
                 }
             }
         };
-        
+
         // Overlap
         this.physics.add.overlap(this.heroObjectCollider, npcSprites, (objA, objB) => {
             if (this.isConversationing > 0) {
