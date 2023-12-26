@@ -59,7 +59,7 @@ const TextBox = (scene, x, y, config) => {
 var getBBcodeText = function (scene, wrapWidth, fixedWidth, fixedHeight) {
     return scene.rexUI.add.BBCodeText(0, 0, '', {
         fixedWidth: fixedWidth,
-        ixedHeight: fixedHeight,
+        fixedHeight: fixedHeight,
         fontSize: '9px',
         wrap: {
             mode: 'word',

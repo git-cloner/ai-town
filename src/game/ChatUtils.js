@@ -7,6 +7,7 @@
 };*/
 
 var conversationHistory = {};
+var chatHistory = "";
 const startWords = "当在小镇遇到熟人，聊{topic}，随机写一个开始话题";
 const chatTemplate = '当在小镇遇到熟人，聊{topic}，熟人说：" {prevanswer}"，随机写一个回答'
 
@@ -36,6 +37,18 @@ export const addHistory = (characterName, answer) => {
         conversationHistory[characterName] = [];
     }
     conversationHistory[characterName].push(answer);
+}
+
+export const addChatHistory = (characterName, answer) => {
+    if (characterName === "you") {
+        chatHistory = characterName + ":" + answer + "\n---------------------\n" + chatHistory;
+    } else {
+        chatHistory = characterName + ":" + answer + "\n" + chatHistory;
+    }
+}
+
+export const getChatHistory = () => {
+    return chatHistory;
 }
 
 export const callGpt = (prompt) => {

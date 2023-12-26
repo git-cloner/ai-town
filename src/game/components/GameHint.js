@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         cursor: 'pointer'
         //color: '#FFFF00'
     }),
-    button: ({ multiplier }) => ({
+    button0: ({ multiplier }) => ({
         fontSize: `${6 * multiplier}px`,
         cursor: 'pointer',
         textAlign: 'center',
@@ -33,6 +33,14 @@ const useStyles = makeStyles((theme) => ({
         position: 'absolute',
         left: `${1 * multiplier}px`,
         top: `${27 * multiplier}px`
+    }),
+    button2: ({ multiplier }) => ({
+        fontSize: `${6 * multiplier}px`,
+        cursor: 'pointer',
+        textAlign: 'center',
+        position: 'absolute',
+        left: `${1 * multiplier}px`,
+        top: `${41 * multiplier}px`
     }),
 }));
 
@@ -53,13 +61,18 @@ const GameHint = ({
         multiplier,
     });
 
-    const handleButtonClick = () => {
+    const handleButton0Click = () => {
         const customEvent = new CustomEvent('heroRandomMove', {});
         window.dispatchEvent(customEvent);
     };
 
     const handleButton1Click = () => {
         const customEvent = new CustomEvent('topicDialog', {});
+        window.dispatchEvent(customEvent);
+    };
+
+    const handleButton2Click = () => {
+        const customEvent = new CustomEvent('chatHistory', {});
         window.dispatchEvent(customEvent);
     };
 
@@ -70,8 +83,9 @@ const GameHint = ({
     return (
         <div className={classes.hintContainer}>
             <div className={classes.hint} onClick={handleLinkClick}>{hintText}</div>
-            <button onClick={handleButtonClick} className={classes.button}>随便走走</button>
+            <button onClick={handleButton0Click} className={classes.button0}>随便走走</button>
             <button onClick={handleButton1Click} className={classes.button1}>设置话题</button>
+            <button onClick={handleButton2Click} className={classes.button2}>聊天记录</button>
         </div>
     );
 };

@@ -4,7 +4,8 @@ import {
     NPC_MOVEMENT_RANDOM,
     SCENE_FADE_TIME,
 } from '../constants';
-import { callGpt, getPrompt, addHistory, getPrevAnser } from '../ChatUtils';
+import { callGpt, getPrompt, addHistory, getPrevAnser, getChatHistory, addChatHistory } from '../ChatUtils';
+import ModelDialog from '../components/ModelDialog';
 
 var topic = "天气";
 
@@ -182,9 +183,12 @@ export default class GameScene extends Scene {
                     s = "天气";
                 }
                 topic = s;
-            };
-            this.removeListener('click');
-            element.setVisible(false);
+                this.removeListener('click');
+                element.setVisible(false);
+            } else if (event.target.name === 'cancelButton') {
+                this.removeListener('click');
+                element.setVisible(false);
+            }
         });
     }
 
@@ -232,6 +236,17 @@ export default class GameScene extends Scene {
             this.showTopicDialog();
         };
         window.addEventListener('topicDialog', heroTopicDialogEventListener);
+
+        const chatHistoryEventListener = () => {
+            ModelDialog(this, getChatHistory())
+                .layout()
+                .setDepth(10)
+                .modalPromise()
+                .then(function () {
+
+                });
+        };
+        window.addEventListener('chatHistory', chatHistoryEventListener);
 
         // Map
         const map = this.make.tilemap({ key: mapKey });
@@ -586,6 +601,7 @@ export default class GameScene extends Scene {
                 currentMessage = "<span style='color:yellow'>you:" + response.response + '</span>';
             } else {
                 currentMessage = "<span style='color:yellow'>you:" + getPrevAnser(characterName) + "</span><br>" + characterName + ":" + response.response;
+
             }
             window.dispatchEvent(new CustomEvent('show-dialog', {
                 detail: {
@@ -595,6 +611,11 @@ export default class GameScene extends Scene {
             }));
             //add history
             if (response.stop) {
+                if (this.conversationTurn === 0) {
+                    addChatHistory("you", response.response);
+                } else {
+                    addChatHistory(characterName, response.response);
+                }
                 this.conversationTurn++;
                 if (this.conversationTurn === 2) {
                     this.isConversationing = 2;
@@ -620,12 +641,14 @@ export default class GameScene extends Scene {
             }
             if (this.isConversationing === 2) {
                 clearInterval(timer);
-                //close dialog
-                window.dispatchEvent(new CustomEvent('close-dialog', {
-                    detail: {
-                        "characterName": characterName
-                    },
-                }));
+                this.time.delayedCall(2000, () => {
+                    //close dialog
+                    window.dispatchEvent(new CustomEvent('close-dialog', {
+                        detail: {
+                            "characterName": characterName
+                        },
+                    }));
+                });
                 //stop conv
                 const dialogBoxFinishedEventListener = () => {
                     window.removeEventListener(`
