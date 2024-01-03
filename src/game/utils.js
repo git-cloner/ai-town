@@ -32,8 +32,8 @@ export const createInteractiveGameObject = (
 };
 
 export const calculateGameSize = () => {
-    let width = 600;
-    let height = 336; // 16 * 14 = 224
+    let width = 800;
+    let height = 448; // 16 * 14 = 224
     //let width = 800 ;
     //let height = 448 ;
     const multiplier = Math.min(Math.floor(window.innerWidth / width), Math.floor(window.innerHeight / height)) || 1;

@@ -3,9 +3,24 @@ const COLOR_LIGHT = 0x7b5e57;
 const COLOR_DARK = 0x260e04;
 
 var ModelDialog = function (scene, content) {
+    var heroX = scene.heroSprite.x + 50;
+    var heroY = scene.heroSprite.y + 50;
+    if(heroX<250){
+        heroX = 250;
+    };
+    if(heroX>700){
+        heroX = 700
+    };
+    if(heroY<220){
+        heroY = 220;
+    };
+    if(heroY>550){
+        heroY = 550
+    };
+    
     return scene.rexUI.add.textArea({
-        x: 200,
-        y: 200,
+        x: heroX,
+        y: heroY,
         width: 300,
         height: 400,
         
@@ -13,7 +28,7 @@ var ModelDialog = function (scene, content) {
             color: COLOR_PRIMARY,
             radius: 20
         }),
-
+        
         text: scene.rexUI.add.BBCodeText(0, 0, '', {
             fontSize: '12px',
             wrap: {

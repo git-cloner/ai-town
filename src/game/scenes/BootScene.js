@@ -157,8 +157,8 @@ export default class BootScene extends Scene {
     create() {
         this.scene.start('GameScene', {
             heroStatus: {
-                position: { x: 27, y: 11 },
-                previousPosition: { x: 27, y: 11 },
+                position: { x: 29, y: 22 },
+                previousPosition: { x: 29, y: 22 },
                 frame: 'hero_idle_down_01',
                 facingDirection: 'down',
                 health: 60,
